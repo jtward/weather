@@ -1,0 +1,114 @@
+@font-face {
+    font-family: 'MeteoconsRegular';
+    src: url('font/meteocons-webfont.eot');
+    src: url('font/meteocons-webfont.eot?#iefix') format('embedded-opentype'),
+         url('font/meteocons-webfont.woff') format('woff'),
+         url('font/meteocons-webfont.ttf') format('truetype'),
+         url('font/meteocons-webfont.svg#MeteoconsRegular') format('svg');
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+  background: #fff;
+  color: #000;
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  /*font-family: 'Lato', sans-serif;*/
+  font-weight: 900;
+}
+
+body {
+	margin: 0;
+	overflow: hidden;
+}
+
+#swipe {
+	height: 100%;
+}
+
+.swipe-item {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	overflow: auto;
+}
+
+.pink {
+	color: #FF909B;
+}
+
+.green {
+	color: #669900;
+}
+
+.grey {
+	color: #888;
+}
+
+.red {
+	color: #CC0000;
+}
+
+.blue {
+	color: #0099CC;	
+}
+
+.yellow {
+	color: #FFFF00;
+}
+
+#icon {
+	font-weight: 100;
+	font-style: normal;
+	font-family: 'MeteoconsRegular';
+}
+
+#icon.icon-sun:after {
+	font-size: 54px;
+	font-size: 18vmin;
+	content: "B";
+}
+
+.description-container {
+	-webkit-flex: 1;
+	display: -webkit-flex;
+	/* use column-reverse to get the description to fall to the bottom */
+	-webkit-flex-direction: column-reverse;
+}
+
+.description {
+	/* descriptions are fucking big  */
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	hyphens: auto;
+	font-size: 54px;
+	font-size: 18vmin;
+	text-wrap: normal;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	overflow-wrap: hyphenate;
+}
+
+.subtext {
+	margin-top: 7vmin;
+	margin-bottom: 4vmin;
+	font-size: 12px;
+	font-size: 4vmin;
+	color: #888;
+	font-weight: normal;
+}
+
+.swipe-item {
+	display: -webkit-flex;
+	-webkit-flex-direction: column;
+	height: 100%;
+	min-height: 100%;
+	margin: 0 12px;
+	margin: 0 4vmin;
+}
