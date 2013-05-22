@@ -3,7 +3,8 @@ $(function() {
 
 	var description = document.getElementById("main").getElementsByClassName("description")[0];
 	var subtext = document.getElementById("main").getElementsByClassName("subtext")[0];
-	var temperature = document.getElementById("temp-container").getElementsByClassName("description")[0];
+    var tempContainer = document.getElementById("temp-container");
+	var temperature = tempContainer.getElementsByClassName("description")[0];
 	
 	var locations;
 	var location;
@@ -271,8 +272,18 @@ $(function() {
 
 			temperature.innerHTML = forecastPoint.F + "&deg;C";
 
+            var backgroundHue = forecastPoint.F - 4;
+            if(backgroundHue < 0) {
+                backgroundHue = 0;
+            }
+            else if (backgroundHue > 24) {
+                backgroundHue = 24;
+            }
+            backgroundHue = 240 - (backgroundHue * 10);
+            tempContainer.style.backgroundColor = "hsla(" + backgroundHue + ", 80%, 40%, 1)";
+
 			if (forecastPoint.W === 0 || forecastPoint.W === 2) {
-				
+
 				if (forecastPoint.F <= 4) {
 					applyStatus("freezing");
 				}
