@@ -1,6 +1,7 @@
 $(function() {
 	var toRadians = Math.PI / 180;
 
+	var weatherIcon = document.getElementById("icon");
 	var description = document.getElementById("main").getElementsByClassName("description")[0];
 	var subtext = document.getElementById("main").getElementsByClassName("subtext")[0];
     var tempContainer = document.getElementById("temp-container");
@@ -73,92 +74,92 @@ $(function() {
 			s: "I can only apologize."
 		},
 		dark: {
-			i: '',
+			i: 'icon-dark',
 			d: "It's fucking dark.",
 			s: "Nothing to see here."
 		},
 		freezing: {
-			i: '',
-			d: "It's fucking <span class=\"span\">freezing</span>.",
+			i: 'icon-cold',
+			d: "It's fucking <span class=\"blue\">freezing</span>.",
 			s: "Pile on the layers."
 		},
 		cold: {
-			i: '',
+			i: 'icon-cold',
 			d: "It's <span class=\"blue\">cold</span>.",
 			s: "Wear a fucking coat or something."
 		},
 		chilly: {
-			i: '',
+			i: 'icon-cold',
 			d: "It's a bit fucking <span class=\"blue\">chilly</span>.",
 			s: "Wear a jumper."
 		},
 		average: {
-			i: '',
+			i: 'icon-partly-cloudy',
 			d: "It's pretty fucking average.",
 			s: "Nothing to write home about."
 		},
 		nice: {
-			i: '',
+			i: 'icon-partly-cloudy',
 			d: "It's not actually too bad.",
 			s: "You could totally fucking go outside."
 		},
 		cloudy: {
-			i: '',
+			i: 'icon-cloud',
 			d: "Just fucking <span class=\"grey\">grey</span>.",
 			s: "That's pretty much it."
 		},
 		warmCloudy: {
-			i: '',
+			i: 'icon-cloud',
 			d: "It's would be <span class=\"green\">nice</span>...",
 			s: "If it weren't for the fucking clouds."
 		},
 		glorious: {
-			i: '',
+			i: 'icon-sun',
 			d: "It's fucking <span class=\"yellow\">glorious</span>.",
 			s: "Get the fuck outside."
 		},
 		hot: {
-			i: '',
+			i: 'icon-sun',
 			d: "It's <span class=\"red\">hot</span> and <span class=\"yellow\">sunny</span>.",
 			s: "What more do you fucking want?"
 		},
 		scorching: {
-			i: '',
+			i: 'icon-sun',
 			d: "It's <span class=\"red\">scorching</span>.",
 			s: "Get in the fucking shade."
 		},
 		rain: {
-			i: '',
+			i: 'icon-rain',
 			d: "It's fucking <span class=\"blue\">raining</span>.",
 			s: "You can look outside for more information."
 		},
 		heavyRain: {
-			i: '',
+			i: 'icon-rain',
 			d: "It's fucking <span class=\"blue\">tipping it down</span>.",
 			s: "You're probably going to get wet."
 		},
 		sleet: {
-			i: '',
+			i: 'icon-sleet',
 			d: "It's trying to fucking <span class=\"grey\">snow</span>.",
 			s: "Close enough."
 		},
 		hail: {
-			i: '',
+			i: 'icon-hail',
 			d: "Fucking <span class=\"blue\">hailstones</span>",
 			s: "Those things can fucking hurt."
 		},
 		snow: {
-			i: '',
+			i: 'icon-snow',
 			d: "It's fucking <span class=\"grey\">snowing</span>.",
 			s: "Fingers crossed it settles."
 		},
 		heavySnow: {
-			i: '',
+			i: 'icon-snow',
 			d: "It's fucking <span class=\"grey\">snowing</span>.",
 			s: "Go throw some at other people or something."
 		},
 		thunder: {
-			i: '',
+			i: 'icon-thunder',
 			d: "Fucking <span class=\"yellow\">thunder storms</span>!",
 			s: "My favourite."
 		}
@@ -169,6 +170,7 @@ $(function() {
 		status = statuses[status];
 		description.innerHTML = status.d;
 		subtext.innerHTML = status.s;
+		weatherIcon.className = status.i;
 	};
 
 	var ajaxFail = function(xhr, textStatus, errorThrown) {
@@ -355,10 +357,14 @@ $(function() {
 				applyStatus("thunder");
 			}
 
+
+			loaded = true;
+			updatePositions();
+
 		}).fail(ajaxFail);
 	}
 
-
+	var loaded = false;
 	var initialTouchX;
     var initialTouchY;
     var isBeingTouched;
@@ -377,11 +383,14 @@ $(function() {
    		return Date.now();
    	};
 
-    var background = document.getElementById("swipe");
+    var background = document.body; //getElementById("swipe");
 	var children = Array.prototype.slice.call(document.getElementsByClassName("swipe-item"));
 	var N = children.length;
 
 	var updatePositions = function() {
+		if (!loaded) {
+			return;
+		}
 		var w = document.documentElement.offsetWidth;
         var el;
         var n;
@@ -394,6 +403,9 @@ $(function() {
 
     var touchstart = function(event) {
         var touch;
+        if (!loaded) {
+        	return;
+        }
         if (event.touches.length > 1 || event.scale && event.scale !== 1) {
             if (isBeingTouched) {
                 touchend();
@@ -472,7 +484,6 @@ $(function() {
 
     	var w = document.documentElement.offsetWidth;
 
-
         isBeingTouched = false;
         background.removeEventListener("touchmove", checkScroll, false);
         background.removeEventListener("touchmove", touchmove, false);
@@ -487,7 +498,7 @@ $(function() {
 		if (lastTouchSpeed < 0) {
             animateEnd = w * Math.floor(currentX / w);
         }
-        else {
+        else if(lastTouchSpeed > 0) {
             animateEnd = w * Math.ceil(currentX / w);
         }
 
